@@ -5,6 +5,7 @@ Runner = Matter.Runner
 Bodies = Matter.Bodies
 Composite = Matter.Composite
 Now = Matter.Common.now()
+// Decomp = Matter.Common.setDecomp('poly-decomp')
 
 // create an engine
 engine = Engine.create()
@@ -24,9 +25,12 @@ boxD = Bodies.polygon(150, 250, 3, 60, { isStatic: true})
 object = Bodies.circle(400, 350, 30, { isStatic: true})
 ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true })
 playerBottom = Bodies.rectangle(300, 580, 20, 50)
+playerTop = Bodies.polygon(300, 540, 3, 13)
+dodgeball = Bodies.circle(20, 15, 15)
+player = Bodies.fromVertices(300, 580, [{"x":0, "y":-30}, {"x":-20, "y":-10}, {"x":-20, "y":40}, {"x":20, "y":-10}, {"x":20, "y":40}])
 
 // add all of the bodies to the world
-Composite.add(engine.world, [boxA, boxB, boxC, boxD, ground, object, playerBottom]);
+Composite.add(engine.world, [boxA, boxB, boxC, boxD, ground, object, dodgeball, player]);
 
 // run the renderer
 Render.run(render);
@@ -38,32 +42,33 @@ let runner = Runner.create();
 Runner.run(runner, engine);
 
 	var position = boxC.position
-	var direction = createVector(0, -0.4)
+	var direction = createVector(0, 0)
 
 }
 
 // function draw() {
 // 	Bodies.circle(mouseX, mouseY, 20);
 // }
+
 function keyPressed() {
 	if (keyCode == UP_ARROW) {
-		position = boxC.position
-		direction = createVector(0, -0.4)
-		Matter.Body.applyForce(boxC, position, direction)
+		position = player.position
+		direction = createVector(0, -0.03)
+		Matter.Body.applyForce(player, position, direction)
 	}
 	if (keyCode == RIGHT_ARROW) {
-		position = boxC.position
-		direction = createVector(0.4, 0)
-		Matter.Body.applyForce(boxC, position, direction)
+		position = player.position
+		direction = createVector(0.03, 0)
+		Matter.Body.applyForce(player, position, direction)
 	}
 	if (keyCode == LEFT_ARROW) {
-		position = boxC.position
-		direction = createVector(-0.4, 0)
-		Matter.Body.applyForce(boxC, position, direction)
+		position = player.position
+		direction = createVector(-0.03, 0)
+		Matter.Body.applyForce(player, position, direction)
 	}
 	if (keyCode == DOWN_ARROW) {
-		position = boxC.position
-		direction = createVector(0, 0.2)
-		Matter.Body.applyForce(boxC, position, direction)
+		position = player.position
+		direction = createVector(0, 0.015)
+		Matter.Body.applyForce(player, position, direction)
 	}
 }
